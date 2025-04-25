@@ -234,3 +234,75 @@
     background: rgba(10, 102, 194, 0.08);
     color: #0a66c2;
 }
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.error-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    font-size: 18px;
+    color: #dc2626;
+    background: #fee2e2;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+}
+
+.connect-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    padding: 8px 24px;
+    background: #0a66c2;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.connect-btn:hover {
+    background: #084c8e;
+}
+
+.bio-edit {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    resize: vertical;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 12px;
+}
+
+.name-edit {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.name-input {
+    font-size: 24px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    flex: 1;
+}
+
+.name-input:focus {
+    border-color: #0a66c2;
+    outline: none;
+}

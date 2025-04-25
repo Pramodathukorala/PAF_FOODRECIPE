@@ -1,19 +1,89 @@
+@import url('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
+    margin: 0;
+    min-height: 100vh;
+    background-color: #f3f2ef;
 }
 
 #root {
-  min-height: 100vh;
+    min-height: 100vh;
+}
+
+/* Common form styles */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+textarea:focus {
+    border-color: #0a66c2;
+    outline: none;
+}
+
+.date-inputs {
+    display: flex;
+    gap: 12px;
+    margin: 12px 0;
+    align-items: center;
+}
+
+.remove-btn {
+    color: #dc2626;
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 8px;
+    margin-top: 8px;
+}
+
+.remove-btn:hover {
+    text-decoration: underline;
+}
+
+.remove-skill-btn {
+    margin-left: 8px;
+    color: #666;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+.remove-skill-btn:hover {
+    color: #dc2626;
+}
+
+.add-skill-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.skill-input {
+    flex: 1;
 }

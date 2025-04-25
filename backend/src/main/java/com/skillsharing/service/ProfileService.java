@@ -7,56 +7,73 @@ import com.skillsharing.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
-import java.util.Base64;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
     private final UserRepository userRepository;
+    private static final String UPLOAD_DIR = "uploads/profile-pictures/";
 
     public ProfileDTO getProfile(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return convertToProfileDTO(user);
+        return mapToProfileDTO(user);
     }
 
     public ProfileDTO getProfileByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return convertToProfileDTO(user);
+        return mapToProfileDTO(user);
     }
 
     public ProfileDTO updateProfile(String email, ProfileUpdateDTO updateDTO) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.setFirstName(updateDTO.getFirstName());
-        user.setLastName(updateDTO.getLastName());
-        user.setHeadline(updateDTO.getHeadline());
-        user.setBio(updateDTO.getBio());
-        user.setLocation(updateDTO.getLocation());
-        user.setWebsite(updateDTO.getWebsite());
-        user.setWorkExperience(updateDTO.getWorkExperience());
-        user.setEducation(updateDTO.getEducation());
-        user.setSkills(updateDTO.getSkills());
-        user.setCertifications(updateDTO.getCertifications());
-        user.setLanguages(updateDTO.getLanguages());
+        if (updateDTO.getFirstName() != null) user.setFirstName(updateDTO.getFirstName());
+        if (updateDTO.getLastName() != null) user.setLastName(updateDTO.getLastName());
+        if (updateDTO.getHeadline() != null) user.setHeadline(updateDTO.getHeadline());
+        if (updateDTO.getBio() != null) user.setBio(updateDTO.getBio());
+        if (updateDTO.getLocation() != null) user.setLocation(updateDTO.getLocation());
+        if (updateDTO.getWebsite() != null) user.setWebsite(updateDTO.getWebsite());
+        if (updateDTO.getWorkExperience() != null) user.setWorkExperience(updateDTO.getWorkExperience());
+        if (updateDTO.getEducation() != null) user.setEducation(updateDTO.getEducation());
+        if (updateDTO.getSkills() != null) user.setSkills(updateDTO.getSkills());
+        if (updateDTO.getCertifications() != null) user.setCertifications(updateDTO.getCertifications());
+        if (updateDTO.getLanguages() != null) user.setLanguages(updateDTO.getLanguages());
 
         User savedUser = userRepository.save(user);
-        return convertToProfileDTO(savedUser);
+        return mapToProfileDTO(savedUser);
     }
 
     public ProfileDTO updateProfilePicture(String email, MultipartFile file) {
-        try {
-            User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-            user.setProfilePicture(Base64.getEncoder().encodeToString(file.getBytes()));
+        try {
+            // Create uploads directory if it doesn't exist
+            Files.createDirectories(Paths.get(UPLOAD_DIR));
+
+            // Generate unique filename
+            String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(UPLOAD_DIR + filename);
+
+            // Save file
+            Files.copy(file.getInputStream(), filePath);
+
+            // Update user profile picture URL
+            user.setProfilePicture("/uploads/profile-pictures/" + filename);
             User savedUser = userRepository.save(user);
-            return convertToProfileDTO(savedUser);
+
+            return mapToProfileDTO(savedUser);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to process profile picture", e);
+            throw new RuntimeException("Failed to upload profile picture", e);
         }
     }
 
@@ -68,8 +85,6 @@ public class ProfileService {
 
         user.getFollowing().add(targetUser.getId());
         targetUser.getFollowers().add(user.getId());
-        user.setConnectionCount(user.getConnectionCount() + 1);
-        targetUser.setConnectionCount(targetUser.getConnectionCount() + 1);
 
         userRepository.save(user);
         userRepository.save(targetUser);
@@ -83,14 +98,12 @@ public class ProfileService {
 
         user.getFollowing().remove(targetUser.getId());
         targetUser.getFollowers().remove(user.getId());
-        user.setConnectionCount(user.getConnectionCount() - 1);
-        targetUser.setConnectionCount(targetUser.getConnectionCount() - 1);
 
         userRepository.save(user);
         userRepository.save(targetUser);
     }
 
-    private ProfileDTO convertToProfileDTO(User user) {
+    private ProfileDTO mapToProfileDTO(User user) {
         ProfileDTO dto = new ProfileDTO();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
@@ -106,8 +119,8 @@ public class ProfileService {
         dto.setSkills(user.getSkills());
         dto.setCertifications(user.getCertifications());
         dto.setLanguages(user.getLanguages());
-        dto.setConnectionCount(user.getConnectionCount());
-        dto.setPostCount(user.getPostCount());
+        dto.setConnectionCount(user.getFollowers().size());
+        dto.setPostCount(0); // TODO: Implement post count
         return dto;
     }
 }

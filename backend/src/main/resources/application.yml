@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://IT22548696:Lasal123@codingsocial.nxvtupz.mongodb.net/skillsharing?retryWrites=true&w=majority
+      uri: mongodb+srv://chaminduathukorala:AA20020607@studentmanagement.i6j3dq6.mongodb.net/FOODRECIPE?retryWrites=true&w=majority
       database: skillsharing
   security:
     jwt:

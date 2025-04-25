@@ -1,0 +1,150 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 52px;
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    z-index: 100;
+}
+
+.nav-content {
+    max-width: 1128px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #0a66c2;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.nav-logo span {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.nav-search {
+    position: relative;
+    margin-left: 8px;
+}
+
+.nav-search input {
+    padding: 8px 8px 8px 36px;
+    border-radius: 4px;
+    border: none;
+    background: #eef3f8;
+    width: 280px;
+    font-size: 14px;
+}
+
+.nav-search i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.nav-center {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 12px;
+    color: rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+    font-size: 12px;
+    min-height: 52px;
+    justify-content: center;
+    position: relative;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.nav-item i {
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+
+.nav-item:hover {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.nav-item.active {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.nav-item:hover::after,
+.nav-item.active::after {
+    opacity: 1;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-profile {
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    padding-right: 4px;
+}
+
+.nav-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .nav-search {
+        display: none;
+    }
+    
+    .nav-item span {
+        display: none;
+    }
+    
+    .nav-item {
+        padding: 0 8px;
+    }
+    
+    .nav-logo span {
+        display: none;
+    }
+}
