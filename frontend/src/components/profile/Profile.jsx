@@ -190,7 +190,10 @@ const Profile = () => {
                         )}
                         <h2>{profile.headline || 'No headline'}</h2>
                         <p>{profile.location || 'No location'}</p>
-                        <p className="connections">{profile.connectionCount} connections</p>
+                        <div className="profile-stats">
+                            <p className="connections">{profile.connectionCount} connections</p>
+                            <p className="posts">{profile.postCount} posts</p>
+                        </div>
                     </div>
                     {isCurrentUser ? (
                         <button 

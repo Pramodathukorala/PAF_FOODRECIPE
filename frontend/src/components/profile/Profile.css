@@ -306,3 +306,19 @@
     border-color: #0a66c2;
     outline: none;
 }
+
+.profile-stats {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.profile-stats p {
+    color: #0a66c2;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.profile-stats p:hover {
+    text-decoration: underline;
+}

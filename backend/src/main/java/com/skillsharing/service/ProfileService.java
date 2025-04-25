@@ -3,6 +3,7 @@ package com.skillsharing.service;
 import com.skillsharing.dto.ProfileDTO;
 import com.skillsharing.dto.ProfileUpdateDTO;
 import com.skillsharing.model.User;
+import com.skillsharing.repository.PostRepository;
 import com.skillsharing.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProfileService {
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
     private static final String UPLOAD_DIR = "uploads/profile-pictures/";
 
     public ProfileDTO getProfile(String username) {
@@ -120,7 +122,7 @@ public class ProfileService {
         dto.setCertifications(user.getCertifications());
         dto.setLanguages(user.getLanguages());
         dto.setConnectionCount(user.getFollowers().size());
-        dto.setPostCount(0); // TODO: Implement post count
+        dto.setPostCount((int) postRepository.countByAuthorId(user.getId()));
         return dto;
     }
 }
